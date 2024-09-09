@@ -8,19 +8,20 @@ router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
+
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
+    successRedirect: "/confirm",
+    failureRedirect: "/register",
   })
 );
 
 router.post(
   "/login",
   passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
+    successRedirect: "/confirm",
+    failureRedirect: "/register",
     failureFlash: true,
   })
 );
@@ -28,5 +29,7 @@ router.post(
 router.post("/register", authController.register);
 
 router.get("/logout", authController.logout);
+
+router.get("/confirm/:token", authController.confirm);
 
 export default router;
